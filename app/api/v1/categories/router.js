@@ -1,8 +1,12 @@
 const express = require("express");
 const router = express.Router();
 
-const { get } = require("./controller");
+const { get, create, detail, update, destroy } = require("./controller");
 
-router.get("/", get);
+router.post("/create", create);
+router.get("/get", get);
+router.get("/detail/:id", detail);
+router.patch("/update/:id", update);
+router.delete("/destroy/:id", destroy);
 
 module.exports = router;

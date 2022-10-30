@@ -13,14 +13,27 @@ module.exports = (sequelize, DataTypes) => {
   }
   Category.init(
     {
-      name: DataTypes.STRING(20),
-      allowNull: false,
-      validate: {
-        min: 3,
-        max: 20,
-        notNull: {
-          msg: "Name can not empty!",
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: DataTypes.INTEGER,
+      },
+      name: {
+        type: DataTypes.STRING(20),
+        allowNull: false,
+        unique: true,
+        validate: {
+          len: [3, 20],
         },
+      },
+      createdAt: {
+        allowNull: false,
+        type: DataTypes.DATE,
+      },
+      updatedAt: {
+        allowNull: false,
+        type: DataTypes.DATE,
       },
     },
     {

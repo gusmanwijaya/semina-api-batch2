@@ -11,6 +11,11 @@ const cors = require("cors");
 const categoriesRouter = require("./app/api/v1/categories/router");
 // END: Import router
 
+// START: Import middleware handle error
+const notFound = require("./app/middlewares/not-found");
+const handleError = require("./app/middlewares/handle-error");
+// END: Import middleware handle error
+
 const apiVersion = "/api/v1";
 
 const app = express();
@@ -28,5 +33,8 @@ app.use(`${apiVersion}/cms/categories`, categoriesRouter);
 app.use("/", function (req, res, next) {
   res.render("index", { title: "Express" });
 });
+
+app.use(notFound);
+app.use(handleError);
 
 module.exports = app;
