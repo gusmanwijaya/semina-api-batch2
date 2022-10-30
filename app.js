@@ -9,6 +9,7 @@ const cors = require("cors");
 
 // START: Import router
 const categoriesRouter = require("./app/api/v1/categories/router");
+const imagesRouter = require("./app/api/v1/images/router");
 // END: Import router
 
 // START: Import middleware handle error
@@ -29,6 +30,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use(`${apiVersion}/cms/categories`, categoriesRouter);
+app.use(`${apiVersion}/cms/images`, imagesRouter);
 
 app.use("/", function (req, res, next) {
   res.render("index", { title: "Express" });

@@ -1,4 +1,5 @@
 const { StatusCodes } = require("http-status-codes");
+const multer = require("multer");
 
 const handleError = (error, req, res, next) => {
   let customError = {
@@ -8,6 +9,7 @@ const handleError = (error, req, res, next) => {
     errors: error.errors || null,
   };
 
+  // START: Sequelize
   if (
     error.name === "SequelizeValidationError" ||
     error.name === "SequelizeUniqueConstraintError"
@@ -25,6 +27,32 @@ const handleError = (error, req, res, next) => {
   ) {
     customError.statusCode = StatusCodes.BAD_REQUEST;
   }
+  // END: Sequelize
+
+  // START: Multer
+  if (error instanceof multer.MulterError) {
+    if (error.code === "LIMIT_FILE_SIZE") {
+      customError.statusCode = StatusCodes.BAD_REQUEST;
+      customError.message = "Max file size is 3 MB!";
+    }
+
+    if (error.code === "LIMIT_FILE_COUNT") {
+      customError.statusCode = StatusCodes.BAD_REQUEST;
+      customError.message = "File limit reached!";
+    }
+
+    if (error.code === "LIMIT_FIELD_COUNT") {
+      customError.statusCode = StatusCodes.BAD_REQUEST;
+      customError.message = "Field limit reached!";
+    }
+
+    if (error.code === "LIMIT_UNEXPECTED_FILE") {
+      customError.statusCode = StatusCodes.BAD_REQUEST;
+      customError.message =
+        "Unsupported format file, format must be .png, .jpg, or .jpeg";
+    }
+  }
+  // END: Multer
 
   return res.status(customError.statusCode).json({
     statusCode: customError.statusCode,
