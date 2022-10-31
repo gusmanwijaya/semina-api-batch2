@@ -56,4 +56,19 @@ module.exports = {
 
     return data;
   },
+  isAnyImage: async (id) => {
+    if (!id) throw new CustomError.BadRequest("Please input parameter id!");
+
+    const data = await Image.findOne({
+      where: {
+        id,
+      },
+      attributes: ["id", "ETag", "Location", "Key", "Bucket"],
+    });
+
+    if (!data)
+      throw new CustomError.NotFound(`Image with id : ${id} not found!`);
+
+    return data;
+  },
 };
