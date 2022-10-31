@@ -9,6 +9,9 @@ const cors = require("cors");
 
 // START: Import router
 const imagesRouter = require("./app/api/v1/images/router");
+const refreshTokenRouter = require("./app/api/v1/refresh-tokens/router");
+const usersRouter = require("./app/api/v1/users/router");
+const authenticationRouter = require("./app/api/v1/authentications/router");
 // END: Import router
 
 // START: Import middleware handle error
@@ -29,6 +32,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use(`${apiVersion}/cms/images`, imagesRouter);
+app.use(`${apiVersion}/cms/refresh-tokens`, refreshTokenRouter);
+app.use(`${apiVersion}/cms/users`, usersRouter);
+app.use(`${apiVersion}/cms/authentications`, authenticationRouter);
 
 app.use("/", function (req, res, next) {
   res.render("index", { title: "Express" });

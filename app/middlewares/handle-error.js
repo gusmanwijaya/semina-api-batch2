@@ -54,6 +54,12 @@ const handleError = (error, req, res, next) => {
   }
   // END: Multer
 
+  // START: JWT
+  if (error.name === "TokenExpiredError") {
+    customError.statusCode = StatusCodes.UNAUTHORIZED;
+  }
+  // END: JWT
+
   return res.status(customError.statusCode).json({
     statusCode: customError.statusCode,
     message: customError.message,
