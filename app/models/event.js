@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Event.belongsToMany(models.TicketCategory, {
+      Event.belongsTo(models.TicketCategory, {
         foreignKey: "ticket_categories_id",
       });
 
