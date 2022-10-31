@@ -1,7 +1,7 @@
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class Category extends Model {
+  class Talent extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -9,24 +9,36 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Category.belongsTo(models.Organizer, {
+      Talent.belongsTo(models.Image, {
+        foreignKey: "image_id",
+      });
+
+      Talent.belongsTo(models.Organizer, {
         foreignKey: "organizer_id",
       });
 
-      Category.hasOne(models.Event, {
+      Talent.hasOne(models.Event, {
         foreignKey: "id",
       });
     }
   }
-  Category.init(
+  Talent.init(
     {
       name: {
-        type: DataTypes.STRING(20),
+        type: DataTypes.STRING(50),
         allowNull: false,
-        unique: true,
         validate: {
-          len: [3, 20],
+          len: [3, 50],
         },
+      },
+      role: {
+        type: DataTypes.STRING(10),
+        allowNull: true,
+        defaultValue: "talent",
+      },
+      image_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
       },
       organizer_id: {
         type: DataTypes.INTEGER,
@@ -35,8 +47,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: "Category",
+      modelName: "Talent",
     }
   );
-  return Category;
+  return Talent;
 };

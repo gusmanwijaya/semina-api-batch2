@@ -14,6 +14,16 @@ module.exports = {
         allowNull: false,
         unique: true,
       },
+      organizer_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: {
+            tableName: "Organizers",
+          },
+          key: "id",
+        },
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
