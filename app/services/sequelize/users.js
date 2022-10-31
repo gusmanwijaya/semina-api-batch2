@@ -1,3 +1,4 @@
+const { Op } = require("sequelize");
 const { Organizer, User } = require("../../models");
 const CustomError = require("../../errors");
 const bcrypt = require("bcryptjs");
@@ -81,10 +82,12 @@ module.exports = {
 
     return data;
   },
-  getUsersRoleOrganizer: async () => {
+  getUsers: async () => {
     const data = await User.findAll({
       where: {
-        role: "organizer",
+        role: {
+          [Op.ne]: "owner",
+        },
       },
       attributes: ["id", "name", "email", "role"],
       include: [

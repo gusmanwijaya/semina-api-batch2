@@ -9,7 +9,7 @@ const {
   createCMSOrganizer,
   createCMSAdmin,
   createOwner,
-  getCMSUsersRoleOrganizer,
+  getCMSUsers,
 } = require("./controller");
 
 router.post("/create-owner", createOwner);
@@ -20,10 +20,10 @@ router.post(
   createCMSOrganizer
 );
 router.get(
-  "/get-organizer",
+  "/get-users",
   authenticationUser,
   authorizeRoles("owner"),
-  getCMSUsersRoleOrganizer
+  getCMSUsers
 );
 router.post(
   "/create-admin",

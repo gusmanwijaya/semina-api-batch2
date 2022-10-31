@@ -3,7 +3,7 @@ const {
   createOrganizer,
   createAdmin,
   createOwner,
-  getUsersRoleOrganizer,
+  getUsers,
 } = require("../../../services/sequelize/users");
 
 module.exports = {
@@ -33,13 +33,13 @@ module.exports = {
       next(error);
     }
   },
-  getCMSUsersRoleOrganizer: async (req, res, next) => {
+  getCMSUsers: async (req, res, next) => {
     try {
-      const data = await getUsersRoleOrganizer();
+      const data = await getUsers();
 
       res.status(StatusCodes.OK).json({
         statusCode: StatusCodes.OK,
-        message: "Successfully get users where role organizer!",
+        message: "Successfully get users!",
         data,
       });
     } catch (error) {
