@@ -2,6 +2,7 @@ const { Op } = require("sequelize");
 const { Organizer, User } = require("../../models");
 const CustomError = require("../../errors");
 const bcrypt = require("bcryptjs");
+const { getRedis } = require("../redis");
 
 module.exports = {
   createOwner: async (req) => {
@@ -116,12 +117,15 @@ module.exports = {
 
     const hashPassword = bcrypt.hashSync(password, 12);
 
+    const cacheUser = await getRedis("authentication-user");
+
     const data = await User.create({
       name,
       email,
       password: hashPassword,
       role: "admin",
-      organizer_id: req.user.organizer_id,
+      organizer_id:
+        cacheUser != null ? cacheUser.organizer_id : req.user.organizer_id,
     });
 
     delete data.dataValues.password;

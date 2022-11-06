@@ -1,5 +1,6 @@
 const CustomError = require("../errors");
 const { isJWTValid } = require("../utils/jwt");
+const { setRedis } = require("../services/redis");
 
 module.exports = {
   authenticationUser: async (req, res, next) => {
@@ -23,6 +24,7 @@ module.exports = {
         role: payload.role,
         organizer_id: payload.organizer_id,
       };
+      await setRedis("authentication-user", req.user);
 
       next();
     } catch (error) {
@@ -49,6 +51,7 @@ module.exports = {
         lastName: payload.lastName,
         email: payload.email,
       };
+      await setRedis("authentication-participant", req.user);
 
       next();
     } catch (error) {
